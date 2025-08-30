@@ -32,7 +32,11 @@ namespace AvaloniaTest.Services
         
         // server urls (configurable)
         public string SignalingServerUrl { get; set; } = "ws://localhost:3000";
-        public List<string> StunServers { get; set; } = new() { "stun:stun.l.google.com:19302" };
+        public List<string> StunServers { get; set; } = new() { 
+            "stun:stun.l.google.com:19302",
+            "stun:stun1.l.google.com:19302",
+            "stun:stun2.l.google.com:19302"
+        };
         
         public bool IsConnected => _isConnected && _p2pEstablished;
         public string SessionCode => _sessionCode;

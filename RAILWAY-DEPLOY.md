@@ -1,54 +1,57 @@
-# Railway Deployment Instructions
+# Railway Deployment Instructions - FIXED
 
 ## 🚀 Quick Deploy
 
 ```bash
-# 1. Install Railway CLI
+# 1. Install Railway CLI  
 npm install -g @railway/cli
 
-# 2. Login to Railway  
+# 2. Login to Railway
 railway login
 
-# 3. Initialize project
+# 3. Deploy the signaling server
 cd /mnt/c/Users/mattd/Desktop/FlightSimP2P
-railway init
-
-# 4. Deploy both services
 railway up
 ```
 
-## 📋 Manual Railway Setup
+## 📋 What Gets Deployed
 
-1. Go to [railway.app](https://railway.app)
-2. Create new project
-3. Connect your GitHub repo
-4. Railway will auto-detect the `railway.toml` config
-5. Deploy both services automatically
+**✅ Rust Signaling Server** - Deployed to Railway
+- Handles WebRTC handshake (offers/answers/ICE)
+- Ultra-fast Rust WebSocket server
+- Uses Docker build from root Dockerfile
+
+**🌐 STUN Servers** - Use Google's free STUN servers
+- No deployment needed (Railway doesn't support UDP well)
+- Google STUN servers work great for NAT traversal
+- Multiple servers for redundancy
 
 ## 🔧 Environment Variables
 
-Railway will automatically set:
-- `PORT=3000` for signaling server
-- `RUST_LOG=info` for logging
+Railway auto-sets:
+- `PORT=3000` 
+- `RUST_LOG=info`
 
-## 🌐 Getting URLs
+## 🌐 Getting Your URL
 
-After deployment, Railway gives you:
-- **Signaling Server**: `https://your-app-signaling.railway.app`
-- **STUN Server**: `stun://your-app-stun.railway.app:3478`
+After deployment:
+- **Signaling**: `wss://your-app-name.railway.app`
 
 ## 🎯 Update C# Client
 
-In your AvaloniaTest, update the server URLs:
+In your AvaloniaTest:
 ```csharp
-p2pService.SignalingServerUrl = "wss://your-app-signaling.railway.app";
-p2pService.StunServers = new[] { "stun:your-app-stun.railway.app:3478" };
+p2pService.SignalingServerUrl = "wss://your-app-name.railway.app";
+// STUN servers are pre-configured to use Google's free servers
 ```
 
-## ✅ Expected Results
+## ✅ Architecture
 
-- **Signaling Server**: Handles WebRTC handshake only
-- **STUN Server**: NAT traversal for P2P connections  
-- **Your Apps**: Direct P2P ultra-low latency communication
+```
+Your Apps ←→ Direct P2P WebRTC ←→ Your Apps
+    ↓                              ↓
+    └→ Railway Signaling Server ←──┘ (handshake only)
+    └→ Google STUN Servers ←───────┘ (NAT traversal)
+```
 
-The servers only handle initial connection setup - all flight sim data flows directly P2P!
+Perfect for ultra-low latency flight sim data!

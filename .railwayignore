@@ -1,0 +1,15 @@
+# Ignore files not needed for Railway deployment
+target/
+*.log
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+.vscode/
+.idea/
+
+# Keep only essential files for deployment
+!signaling/
+!stun/  
+!railway.toml
+!README.md
