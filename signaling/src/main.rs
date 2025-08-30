@@ -88,9 +88,7 @@ impl AppState {
 
 #[tokio::main]
 async fn main() -> Result<()> {
-    tracing_subscriber::fmt()
-        .with_env_filter("flightsim_p2p_signaling=info")
-        .init();
+    tracing_subscriber::fmt().init();
 
     let port = std::env::var("PORT").unwrap_or_else(|_| "3000".to_string());
     let addr = format!("0.0.0.0:{}", port);
