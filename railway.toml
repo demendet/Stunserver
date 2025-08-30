@@ -1,13 +1,14 @@
-# Deploy only the Rust signaling server to Railway
-# STUN server requires UDP ports which Railway doesn't support well
-# Use external STUN servers instead
+# Railway v2 config - Force Docker build
+[[services]]
+name = "signaling"
 
-[build]
-builder = "dockerfile"
+[services.signaling.build]
+builder = "DOCKERFILE"
+dockerfilePath = "Dockerfile"
 
-[deploy]
+[services.signaling.deploy]
 restartPolicyType = "on-failure"
 
-[variables]
-PORT = "3000" 
+[services.signaling.variables]
+PORT = "3000"
 RUST_LOG = "info"
