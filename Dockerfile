@@ -1,23 +1,18 @@
 # Root Dockerfile for single-service Railway deployment
 # This builds just the Rust signaling server for Railway
 
-FROM rust:1.75-slim AS builder
+FROM rust:1.80-slim AS builder
 
 WORKDIR /app
 
 # Install dependencies
 RUN apt-get update && apt-get install -y pkg-config libssl-dev && rm -rf /var/lib/apt/lists/*
 
-# Copy signaling server source
+# Copy all source files
 COPY signaling/Cargo.toml ./
 COPY signaling/src ./src
 
-# Create dummy main to cache dependencies
-RUN mkdir -p src && echo "fn main() {}" > src/main.rs
-RUN cargo build --release && rm src/main.rs target/release/deps/flightsim-p2p-signaling*
-
-# Copy real source and build
-COPY signaling/src ./src
+# Build release binary
 RUN cargo build --release
 
 # Runtime image
