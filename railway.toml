@@ -1,0 +1,11 @@
+[[services]]
+name = "signaling"
+dockerfile = "signaling/Dockerfile"
+
+[services.signaling.variables]
+PORT = "3000"
+RUST_LOG = "info"
+
+[[services]]
+name = "stun"  
+dockerfile = "stun/Dockerfile"

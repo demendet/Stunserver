@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  # blazing-fast rust signaling server
+  signaling:
+    build: 
+      context: ./signaling
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      - PORT=3000
+      - RUST_LOG=info
+    restart: unless-stopped
+    
+  # high-performance STUN/TURN server  
+  stun:
+    build:
+      context: ./stun
+      dockerfile: Dockerfile
+    ports:
+      - "3478:3478/udp"
+      - "3478:3478/tcp" 
+      - "5349:5349/udp"
+      - "5349:5349/tcp"
+      - "10000-20000:10000-20000/udp"
+    restart: unless-stopped
+
+networks:
+  default:
+    driver: bridge
