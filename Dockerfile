@@ -14,7 +14,7 @@ COPY signaling/src ./src
 
 # Create dummy main to cache dependencies
 RUN mkdir -p src && echo "fn main() {}" > src/main.rs
-RUN cargo build --release && rm src/main.rs target/release/deps/flightsim_p2p_signaling*
+RUN cargo build --release && rm src/main.rs target/release/deps/flightsim-p2p-signaling*
 
 # Copy real source and build
 COPY signaling/src ./src

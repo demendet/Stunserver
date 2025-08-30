@@ -36,4 +36,4 @@ docker-compose up
 railway up
 ```
 
-The current SignalR flow: `Sim → App → SignalR Server → Client` becomes `Sim → App ←P2P→ Client` fack
+The current SignalR flow: `Sim → App → SignalR Server → Client` becomes `Sim → App ←P2P→ Client` facks
