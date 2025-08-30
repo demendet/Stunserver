@@ -9,7 +9,7 @@ WORKDIR /app
 RUN apt-get update && apt-get install -y pkg-config libssl-dev && rm -rf /var/lib/apt/lists/*
 
 # Copy signaling server source
-COPY signaling/Cargo.toml signaling/Cargo.lock ./
+COPY signaling/Cargo.toml ./
 COPY signaling/src ./src
 
 # Create dummy main to cache dependencies
